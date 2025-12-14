@@ -7,24 +7,22 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CSS VARIABLES & RESET --- */
+        /* --- RESET & VARIABLES --- */
         :root {
-            --bg-color: #f0f4f8;       /* Very light cool grey */
-            --card-bg: #ffffff;        /* Pure White */
-            --text-main: #0f172a;      /* Dark Navy/Black */
-            --text-sub: #64748b;       /* Muted Slate */
+            --bg-color: #F8FAFC; /* Slightly cooler grey for ocean theme */
+            --card-bg: #FFFFFF;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
             
-            /* THEME UPDATE: Deep Ocean Blue */
-            --accent: #023e8a;         /* UMT Deep Blue style */
-            --accent-soft: #e0f2fe;    /* Very light blue wash */
+            /* THEME: UMT Deep Ocean Blue */
+            --accent: #004e92; 
+            --accent-bg: #E0F2FE; /* Very light blue for backgrounds */
             
-            --border: #cbd5e1;
-            --radius: 24px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --border-radius: 24px;
+            --gap: 20px;
         }
 
         * {
@@ -37,365 +35,266 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.6;
-            padding: 2rem;
+            line-height: 1.5;
+            padding: 20px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* --- BENTO GRID LAYOUT --- */
-        .bento-container {
+        /* --- GRID LAYOUT --- */
+        .bento-grid {
             display: grid;
             grid-template-columns: 1fr; /* Mobile Default */
-            gap: 1.5rem;
+            gap: var(--gap);
             width: 100%;
             max-width: 1100px;
-            margin: 0 auto;
         }
 
-        /* Desktop Grid Configuration (min-width 900px) */
-        @media (min-width: 900px) {
-            .bento-container {
+        /* Desktop Grid (Min-width 768px) */
+        @media (min-width: 768px) {
+            .bento-grid {
                 grid-template-columns: repeat(4, 1fr);
                 grid-template-rows: repeat(3, auto);
-                /* Map:
-                   [ Profile  ] [ Profile  ] [ Location ] [ Subjects ]
-                   [ Profile  ] [ Profile  ] [ Hobby    ] [ Subjects ]
-                   [ Case St  ] [ Case St  ] [ Playlist ] [ Playlist ]
-                */
             }
             
-            /* Specific Card Placements */
             .card-profile { grid-column: span 2; grid-row: span 2; }
             .card-location { grid-column: span 1; grid-row: span 1; }
-            .card-hobby { grid-column: span 1; grid-row: span 1; }
             .card-subjects { grid-column: span 1; grid-row: span 2; }
-            .card-casestudy { grid-column: span 2; grid-row: span 1; }
-            .card-playlist { grid-column: span 2; grid-row: span 1; }
+            .card-lab { grid-column: span 2; grid-row: span 1; } 
+            .card-hobby { grid-column: span 1; grid-row: span 1; }
+            .card-playlist { grid-column: span 4; grid-row: span 1; }
         }
 
         /* --- CARD STYLING --- */
         .card {
             background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(255,255,255,0.8);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
-            transition: var(--transition);
         }
 
         .card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            border-color: var(--accent);
+            box-shadow: 0 10px 15px -3px rgba(0, 78, 146, 0.1), 0 4px 6px -2px rgba(0, 78, 146, 0.05); /* Blue tinted shadow */
         }
 
         /* Typography Utilities */
-        h2 { font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem; }
-        h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
-        p { font-size: 0.95rem; color: var(--text-sub); }
-        .label { 
-            text-transform: uppercase; 
-            letter-spacing: 0.05em; 
-            font-size: 0.75rem; 
-            font-weight: 700; 
-            color: var(--accent); 
-            margin-bottom: 0.5rem;
-            display: block;
+        h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; }
+        h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
+        h3 { font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+        p { color: var(--text-muted); font-size: 0.95rem; }
+        
+        .tag {
+            display: inline-block;
+            background: white;
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            border: 1px solid var(--accent-bg);
         }
+        
+        /* --- SPECIFIC CARD STYLES --- */
 
-        /* --- INDIVIDUAL CARD STYLES --- */
-
-        /* 1. Profile Card */
+        /* 1. Profile */
         .card-profile {
             justify-content: space-between;
-            background: linear-gradient(to bottom, #ffffff, #f8fafc);
+            background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
         }
-        .profile-header {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
+        .profile-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
         .avatar {
-            width: 80px;
-            height: 80px;
+            width: 80px; height: 80px;
+            background-color: var(--accent); /* Deep Blue Background */
+            color: white;
             border-radius: 50%;
-            background-color: var(--accent-soft);
-            color: var(--accent);
-            border: 2px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        .profile-info h1 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: var(--text-main);
-            line-height: 1.2;
-        }
-        .profile-info p {
-            font-size: 1rem;
-            color: var(--text-sub);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; font-weight: 600;
         }
         .tagline {
-            margin-top: 0.5rem;
             font-style: italic;
-            color: var(--accent);
-            font-weight: 500;
-        }
-        .social-links {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1.5rem;
-        }
-        .social-btn {
-            background: white;
             color: var(--text-main);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            text-decoration: none;
+            margin-top: 10px;
             font-weight: 500;
+        }
+        .social-links { display: flex; gap: 10px; margin-top: auto; }
+        .social-btn {
+            background: var(--text-main);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
             font-size: 0.9rem;
-            border: 1px solid var(--border);
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-weight: 500;
+            transition: opacity 0.2s;
         }
-        .social-btn:hover {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
+        .social-btn:hover { opacity: 0.85; }
+        .social-btn.secondary { background: #e2e8f0; color: var(--text-main); }
 
-        /* 2. Location Card */
+        /* 2. Location */
         .card-location {
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: radial-gradient(circle at top right, var(--accent-soft), transparent 70%);
-        }
-        .live-indicator {
-            position: absolute;
-            top: 1.25rem;
-            right: 1.25rem;
-            width: 10px;
-            height: 10px;
-            background-color: #22c55e;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        .time-display {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent);
-            font-feature-settings: "tnum";
-            margin-top: 0.5rem;
-        }
-
-        /* 3. Subjects Card */
-        .card-subjects {
-            background-color: #0f172a; /* Dark Navy Background */
+            background-color: var(--accent);
             color: white;
-        }
-        .card-subjects .label { color: #38bdf8; /* Lighter blue for contrast */ }
-        .card-subjects h3 { color: white; }
-        .tag-container {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-top: auto;
-        }
-        .tag {
-            background: rgba(255,255,255,0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            display: flex;
             align-items: center;
-            gap: 0.5rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: var(--transition);
-        }
-        .tag:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        .tag:before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: #38bdf8;
-            border-radius: 50%;
-        }
-
-        /* 4. Hobby Card */
-        .card-hobby {
             justify-content: center;
-            align-items: center;
             text-align: center;
         }
-        .icon-large {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+        .card-location h3 { color: rgba(255,255,255,0.7); margin-bottom: 4px; }
+        .card-location p { color: rgba(255,255,255,0.95); }
+        .time-display { font-size: 2rem; font-weight: 700; margin: 8px 0; }
+
+        /* 3. Subjects */
+        .card-subjects { justify-content: flex-start; }
+        .subject-list { list-style: none; margin-top: 5px; }
+        .subject-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .subject-item:last-child { border-bottom: none; }
+        .status-dot {
+            height: 8px; width: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block;
         }
 
-        /* 5. Case Study */
-        .card-casestudy {
-            background: linear-gradient(to bottom right, #ffffff, #f0f9ff);
+        /* 4. Lab / Case Study */
+        .card-lab { 
+            background: var(--accent-bg); 
+            border: 1px solid #bfdbfe;
         }
-        .lab-status {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: var(--accent-soft);
+        .card-lab h3 { color: var(--accent); }
+        .card-lab p { color: #1e3a8a; font-size: 0.9rem; } /* Darker blue text */
+        .lab-icon { 
+            position: absolute; right: 20px; bottom: 20px; 
+            opacity: 0.15; width: 70px; height: 70px; 
             color: var(--accent);
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
         }
+
+        /* 5. Hobby */
+        .card-hobby { align-items: center; justify-content: center; text-align: center; }
+        .hobby-icon { font-size: 2.5rem; margin-bottom: 10px; }
 
         /* 6. Playlist */
         .card-playlist {
             flex-direction: row;
             align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            background-color: #000;
-            color: white;
-        }
-        .playlist-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            gap: 20px;
+            padding: 15px 24px;
         }
         .album-art {
-            width: 50px;
-            height: 50px;
-            background: var(--accent);
+            width: 48px; height: 48px;
+            background: linear-gradient(45deg, #004e92, #50c9c3);
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.2rem;
         }
-        .playlist-text h3 { margin: 0; font-size: 0.95rem; color: white; }
-        .playlist-text p { color: #aaa; font-size: 0.8rem; }
-        .wave-animation {
-            display: flex;
-            gap: 3px;
-            height: 20px;
-            align-items: flex-end;
-        }
-        .bar {
-            width: 3px;
-            background: var(--accent);
-            animation: wave 1s infinite ease-in-out;
-        }
-        .bar:nth-child(2) { animation-delay: 0.1s; height: 60%; }
-        .bar:nth-child(3) { animation-delay: 0.2s; height: 80%; }
-        .bar:nth-child(4) { animation-delay: 0.3s; height: 40%; }
-
-        /* --- ANIMATIONS --- */
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-            70% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-        }
-        @keyframes wave {
-            0%, 100% { height: 20%; }
-            50% { height: 100%; }
-        }
-
-        /* --- SVG ICON HELPERS --- */
-        svg { width: 16px; height: 16px; fill: currentColor; }
+        .track-info { flex-grow: 1; }
+        .track-info h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px;}
+        .track-info span { font-size: 0.8rem; color: var(--text-muted); }
+        
+        /* EQ Animation */
+        .eq { display: flex; gap: 3px; align-items: flex-end; height: 16px; }
+        .bar { width: 3px; background: var(--accent); border-radius: 2px; animation: bounce 1s infinite ease-in-out; }
+        .bar:nth-child(1) { animation-delay: 0.0s; height: 40%; }
+        .bar:nth-child(2) { animation-delay: 0.2s; height: 100%; }
+        .bar:nth-child(3) { animation-delay: 0.4s; height: 60%; }
+        .bar:nth-child(4) { animation-delay: 0.1s; height: 80%; }
+        @keyframes bounce { 0%, 100% { height: 20%; } 50% { height: 100%; } }
 
     </style>
 </head>
 <body>
 
-    <div class="bento-container">
-        
+    <main class="bento-grid">
+
         <div class="card card-profile">
             <div>
-                <span class="label">Student Profile</span>
+                <h3>Student Profile</h3>
                 <div class="profile-header">
                     <div class="avatar">DH</div>
-                    <div class="profile-info">
+                    <div>
                         <h1>Damia Huda</h1>
-                        <p>Food Technology</p>
-                        <p style="color: var(--accent); font-weight: 600; font-size: 0.9rem;">Year 1 • UMT</p>
-                        <p class="tagline">"Innovating food safety."</p>
+                        <p style="color: var(--text-main); font-weight: 500;">Food Technology</p>
+                        <p style="font-size: 0.85rem;">Year 1 • UMT</p>
                     </div>
                 </div>
+                <p class="tagline">"Innovating food safety."</p>
             </div>
-            
             <div class="social-links">
-                <a href="#" class="social-btn">
-                    <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                    LinkedIn
-                </a>
-                <a href="#" class="social-btn">
-                    <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    GitHub
-                </a>
-                <a href="#" class="social-btn">Portal</a>
+                <a href="#" class="social-btn">Linkedin</a>
+                <a href="#" class="social-btn secondary">Github</a>
+                <a href="#" class="social-btn secondary">Portal</a>
             </div>
         </div>
 
         <div class="card card-location">
-            <span class="live-indicator"></span>
-            <span class="label">Campus</span>
-            <h3>UMT</h3>
+            <h3>Location</h3>
             <div class="time-display" id="clock">--:--</div>
-            <p style="font-size: 0.8rem; margin-top: 5px;">Kuala Nerus, MY</p>
+            <p style="font-weight: 600;">UMT, Kuala Nerus</p>
+            <p style="font-size: 0.8rem; opacity: 0.8;">Malaysia</p>
         </div>
 
         <div class="card card-subjects">
-            <span class="label">Current Focus</span>
-            <div class="tag-container">
-                <div class="tag">Food Chemistry</div>
-                <div class="tag">Microbiology</div>
-                <div class="tag">Excel Analysis</div>
-                <div class="tag">Lab Safety</div>
-                <div class="tag">Food Laws</div>
-            </div>
-        </div>
-
-        <div class="card card-casestudy">
-            <span class="lab-status">Research</span>
-            <h3>Starch Gelatinization in Local Kuih</h3>
-            <p>Analyzing texture profiles of Kuih Lapis to optimize shelf-life and consistency.</p>
-            <div style="margin-top: 1rem; height: 4px; width: 100%; background: #e2e8f0; border-radius: 2px;">
-                <div style="height: 100%; width: 60%; background: var(--accent); border-radius: 2px;"></div>
-            </div>
-            <p style="font-size: 0.75rem; margin-top: 0.5rem; text-align: right; color: var(--accent);">Data Collection Phase</p>
+            <h3>Year 1 Subjects</h3>
+            <ul class="subject-list">
+                <li class="subject-item">
+                    <span>Food Chemistry</span>
+                    <span class="status-dot"></span>
+                </li>
+                <li class="subject-item">
+                    <span>Microbiology</span>
+                    <span class="status-dot"></span>
+                </li>
+                <li class="subject-item">
+                    <span>Excel & Data</span>
+                    <span class="status-dot"></span>
+                </li>
+                <li class="subject-item">
+                    <span>Lab Analysis</span>
+                    <span class="status-dot"></span>
+                </li>
+            </ul>
         </div>
 
         <div class="card card-hobby">
-            <span class="label">Relaxation</span>
-            <div class="icon-large">🌅</div>
-            <h3>Evening Walks</h3>
-            <p>Pantai UMT</p>
+            <h3>Downtime</h3>
+            <div class="hobby-icon">🌊</div>
+            <p style="font-weight: 600;">Evening Walks</p>
+            <p style="font-size: 0.8rem;">Pantai UMT</p>
+        </div>
+
+        <div class="card card-lab">
+            <svg class="lab-icon" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19.07 15.82L13 5.42V3h1a1 1 0 000-2H9a1 1 0 000 2h1v2.42L3.93 15.82a3.06 3.06 0 00-.11 2.94A3 3 0 006.51 21H17.5a3 3 0 002.68-2.24 3.06 3.06 0 00-.11-2.94zM10.6 8.35L12 6l1.4 2.35L15 11h-6l1.6-2.65z"/>
+            </svg>
+            <h3>Recent Case Study</h3>
+            <h2>Starch Gelatinization in Local Kuih</h2>
+            <p>Analyzing texture profiles and viscosity changes of Kuih Lapis during thermal processing.</p>
+            <div style="margin-top: 20px;">
+                <span class="tag">Rheology</span>
+                <span class="tag">Food Tech</span>
+            </div>
         </div>
 
         <div class="card card-playlist">
-            <div class="playlist-info">
-                <div class="album-art">
-                    <svg viewBox="0 0 24 24" style="width:24px; height:24px; fill:white;"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-                <div class="playlist-text">
-                    <h3>Deep Focus</h3>
-                    <p>Ocean Waves & Lo-Fi</p>
-                </div>
+            <div class="album-art">🎵</div>
+            <div class="track-info">
+                <h4>Coastal Vibes</h4>
+                <span>Study Playlist • UMT</span>
             </div>
-            <div class="wave-animation">
+            <div class="eq">
                 <div class="bar"></div>
                 <div class="bar"></div>
                 <div class="bar"></div>
@@ -403,7 +302,7 @@
             </div>
         </div>
 
-    </div>
+    </main>
 
     <script>
         function updateTime() {
@@ -411,7 +310,7 @@
             const timeString = now.toLocaleTimeString('en-US', { 
                 hour: '2-digit', 
                 minute: '2-digit',
-                hour12: false 
+                hour12: false
             });
             document.getElementById('clock').textContent = timeString;
         }
