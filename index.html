@@ -13,19 +13,19 @@
         /* --- 1. Scientific Variables & Reset --- */
         :root {
             /* Palette: UMT Deep Ocean Theme */
-            --bg-color: #F3F4F6;       /* Cool Grey 100 */
-            --card-bg: #FFFFFF;        /* White */
-            --text-main: #111827;      /* Cool Grey 900 */
-            --text-muted: #6B7280;     /* Cool Grey 500 */
-            --border-color: #E5E7EB;   /* Cool Grey 200 */
+            --bg-color: #F3F4F6;       
+            --card-bg: #FFFFFF;        
+            --text-main: #111827;      
+            --text-muted: #6B7280;     
+            --border-color: #E5E7EB;   
             
-            /* THEME: Deep Ocean Blue (UMT Style) */
-            --accent-color: #0C3466;   /* Dark Navy Blue */
-            --accent-soft: #E0E7FF;    /* Soft Indigo/Blue Wash */
+            /* THEME: Deep Ocean Blue */
+            --accent-color: #0C3466;   
+            --accent-soft: #E0E7FF;    
             
-            --radius: 1.5rem;          /* Bento Roundness */
+            --radius: 1.5rem;          
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --transition: all 0.3s ease;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Snappier transition */
         }
 
         * {
@@ -80,12 +80,16 @@
             transition: var(--transition);
             overflow: hidden;
             position: relative;
+            /* Fix for Safari hover scaling */
+            transform: translateZ(0); 
         }
 
+        /* UPDATE 3: Hover Zoom Effect */
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: scale(1.02) translateY(-5px); /* Scales up 2% and moves up */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             border-color: var(--accent-color);
+            z-index: 10;
         }
 
         /* Typography Utilities */
@@ -148,7 +152,7 @@
             border: 1px solid var(--border-color);
             color: var(--text-main);
         }
-        .btn:hover { opacity: 0.9; transform: scale(1.02); }
+        .btn:hover { opacity: 0.9; }
 
         /* Card 2: Location */
         .location-content {
@@ -204,6 +208,14 @@
             font-size: 8rem;
             transform: rotate(-15deg);
             filter: grayscale(100%);
+        }
+
+        /* New Card: Reflection Icon */
+        .quote-icon {
+            font-size: 2rem;
+            color: var(--accent-color);
+            opacity: 0.2;
+            margin-bottom: 0.5rem;
         }
 
         /* Card 6: Playlist */
@@ -273,9 +285,9 @@
             </div>
             
             <div class="social-links">
-                <a href="#" class="btn btn-primary">LinkedIn</a>
-                <a href="#" class="btn btn-outline">GitHub</a>
-                <a href="#" class="btn btn-outline">UMT Portal</a>
+                <a href="#" target="_blank" class="btn btn-primary">LinkedIn</a>
+                <a href="#" target="_blank" class="btn btn-outline">GitHub</a>
+                <a href="#" target="_blank" class="btn btn-outline">Portal</a>
             </div>
         </article>
 
@@ -285,6 +297,16 @@
                 <h3>UMT Campus</h3>
                 <p>Kuala Nerus, Terengganu</p>
                 <div class="time-display" id="clock">--:--</div> 
+            </div>
+        </article>
+
+        <article class="card">
+            <span class="label">Current Subjects</span>
+            <div class="pill-container">
+                <div class="pill">Food Chemistry</div>
+                <div class="pill">Microbiology</div>
+                <div class="pill">Lab Analysis</div>
+                <div class="pill">Excel</div>
             </div>
         </article>
 
@@ -299,26 +321,29 @@
         </article>
 
         <article class="card">
-            <span class="label">Current Subjects</span>
-            <div class="pill-container">
-                <div class="pill">Food Chemistry</div>
-                <div class="pill">Microbiology</div>
-                <div class="pill">Lab Analysis</div>
-                <div class="pill">Excel</div>
-            </div>
+            <span class="label">Industry Insight</span>
+            <div class="quote-icon">❝</div>
+            <h3>Why Food Tech?</h3>
+            <p style="font-size: 0.9rem;">
+                Sustainable food security is crucial for our future. By optimizing local processing methods, we can reduce waste and improve nutrition.
+            </p>
         </article>
 
-        <article class="card">
+        <article class="card col-span-2">
             <span class="label">Recent Lab</span>
-            <div class="lab-icon">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div class="lab-icon" style="flex-shrink: 0;">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                </div>
+                <div>
+                    <h3 style="font-size: 1rem;">Starch Gelatinization in Local Kuih</h3>
+                    <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Analyzing texture profiles of Kuih Lapis using rheological methods.</p>
+                    <a href="#" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.9rem;">View Results &rarr;</a>
+                </div>
             </div>
-            <h3 style="font-size: 1rem;">Starch Gelatinization</h3>
-            <p style="font-size: 0.8rem; margin-bottom: 1rem;">Analyzing texture profiles of Kuih Lapis.</p>
-            <a href="#" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.9rem;">View Results &rarr;</a>
         </article>
 
-        <article class="card col-span-4" style="min-height: auto; padding: 1.5rem;">
+        <article class="card col-span-2" style="min-height: auto; padding: 1.5rem;">
             <div class="player-wrapper">
                 <div class="play-btn">
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -327,6 +352,7 @@
                     <span class="label" style="margin-bottom: 0;">Audio</span>
                     <h3 style="margin-bottom: 0.2rem;">Ocean Waves (White Noise)</h3>
                     <p style="font-size: 0.85rem;">Focus Playlist • 10 min</p>
+<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/artist/1iCnM8foFssWlPRLfAbIwo?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     <div class="progress-bar">
                         <div class="progress-fill"></div>
                     </div>
