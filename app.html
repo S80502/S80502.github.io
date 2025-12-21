@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lofi Focus Companion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --bg-color: #FDF6E3;       
+            --card-bg: #FFFFFF;        
+            --primary: #B39DDB;        
+            --secondary: #FFAB91;      
+            --accent: #80CBC4;         
+            --text-color: #5D4037;     
+            --shadow: 0 10px 25px rgba(179, 157, 219, 0.25);
+            --light-gray: #F5F5F5;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px; /* Added padding for scrolling on mobile */
+        }
+
+        .app-container {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            border: 4px solid #FFF;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+            font-weight: 700;
+        }
+
+        /* --- PET & TIMER SECTION --- */
+        .pet-container {
+            font-size: 7rem;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: breathe 4s infinite ease-in-out;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        @keyframes breathe {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .status-text {
+            font-size: 0.9rem;
+            color: #90A4AE;
+            margin-bottom: 0.5rem;
+            min-height: 1.5em;
+        }
+
+        .timer-display {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        button:active { transform: scale(0.95); }
+        .btn-start { background-color: var(--accent); color: white; }
+        .btn-pause { background-color: var(--secondary); color: white; }
+        .btn-reset { background-color: #ECEFF1; color: var(--text-color); }
+
+        /* --- TO DO LIST SECTION --- */
+        .todo-section {
+            border-top: 2px dashed #EEE;
+            padding-top: 1.5rem;
+            text-align: left;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+
+        #task-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 2px solid var(--light-gray);
+            font-family: 'Nunito', sans-serif;
+            outline: none;
+            color: var(--text-color);
+            background: var(--light-gray);
+        }
+
+        #task-input:focus {
+            border-color: var(--primary);
+            background: #fff;
+        }
+
+        .btn-add {
+            background-color: var(--primary);
+            color: white;
+            padding: 0 20px;
+        }
+
+        ul {
+            list-style: none;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        /* Scrollbar styling for list */
+        ul::-webkit-scrollbar { width: 6px; }
+        ul::-webkit-scrollbar-thumb { background-color: #eee; border-radius: 10px; }
+
+        li {
+            background: #FFF;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 10px 5px;
+            cursor: pointer;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        li:before {
+            content: '○';
+            margin-right: 10px;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        li.completed {
+            text-decoration: line-through;
+            color: #CFD8DC;
+        }
+
+        li.completed:before {
+            content: '●';
+        }
+
+        .btn-clear-all {
+            background: transparent;
+            color: #FF8A65;
+            font-size: 0.8rem;
+            width: 100%;
+            box-shadow: none;
+            text-decoration: underline;
+            padding: 5px;
+        }
+        
+        .btn-clear-all:hover {
+            background: #FFF3E0;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<a href="https://S80502.github.io" style="position:absolute; top:20px; left:20px;">← Back to Home</a>
+
+    <div class="app-container">
+        <h1>Focus Companion</h1>
+        
+        <div class="pet-container" id="pet">😴</div>
+        <div class="status-text" id="status-text">Zzz...</div>
+
+        <div class="timer-display" id="timer">25:00</div>
+
+        <div class="controls">
+            <button class="btn-start" onclick="startTimer()">Start</button>
+            <button class="btn-pause" onclick="pauseTimer()">Pause</button>
+            <button class="btn-reset" onclick="resetTimer()">Reset</button>
+        </div>
+
+        <div class="todo-section">
+            <div class="input-group">
+                <input type="text" id="task-input" placeholder="Type a goal here..." onkeypress="handleKeyPress(event)">
+                <button class="btn-add" onclick="addTask()">Add</button>
+            </div>
+            
+            <ul id="task-list">
+                </ul>
+
+            <button class="btn-clear-all" onclick="clearAllTasks()">Clear Completed & All Tasks</button>
+        </div>
+    </div>
+
+    <audio id="alarm-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3"></audio>
+
+    <script>
+        // --- TIMER LOGIC ---
+        const WORK_TIME = 25 * 60;
+        let timeLeft = WORK_TIME;
+        let timerInterval = null;
+        let isRunning = false;
+
+        const petDisplay = document.getElementById('pet');
+        const timerDisplay = document.getElementById('timer');
+        const statusText = document.getElementById('status-text');
+        const alarmSound = document.getElementById('alarm-sound');
+
+        const PET_STATES = { SLEEP: '😴', FOCUS: '😎', HAPPY: '🥳' };
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            isRunning = true;
+            petDisplay.textContent = PET_STATES.FOCUS;
+            statusText.textContent = "Stay focused!";
+            
+            timerInterval = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateTimerDisplay();
+                } else {
+                    finishTimer();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            if (!isRunning) return;
+            clearInterval(timerInterval);
+            isRunning = false;
+            petDisplay.textContent = PET_STATES.SLEEP; 
+            statusText.textContent = "Paused";
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            timeLeft = WORK_TIME;
+            petDisplay.textContent = PET_STATES.SLEEP;
+            statusText.textContent = "Zzz...";
+            updateTimerDisplay();
+        }
+
+        function finishTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            timeLeft = 0;
+            updateTimerDisplay();
+            petDisplay.textContent = PET_STATES.HAPPY;
+            statusText.textContent = "Great job!";
+            try { alarmSound.currentTime = 0; alarmSound.play(); } catch (e) {}
+        }
+
+        // --- TO DO LIST LOGIC (LocalStorage) ---
+        const taskInput = document.getElementById('task-input');
+        const taskList = document.getElementById('task-list');
+
+        // Load tasks from storage on startup
+        let tasks = JSON.parse(localStorage.getItem('focusTasks')) || [];
+        renderTasks();
+
+        function renderTasks() {
+            taskList.innerHTML = '';
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.textContent = task.text;
+                if (task.completed) {
+                    li.classList.add('completed');
+                }
+                // Click to toggle
+                li.onclick = () => toggleTask(index);
+                taskList.appendChild(li);
+            });
+            // Save to storage every time we render
+            localStorage.setItem('focusTasks', JSON.stringify(tasks));
+        }
+
+        function addTask() {
+            const text = taskInput.value.trim();
+            if (text === "") return;
+
+            tasks.push({ text: text, completed: false });
+            taskInput.value = ''; // Clear input
+            renderTasks();
+        }
+
+        function toggleTask(index) {
+            tasks[index].completed = !tasks[index].completed;
+            renderTasks();
+        }
+
+        function clearAllTasks() {
+            if(confirm("Delete all tasks?")) {
+                tasks = [];
+                renderTasks();
+            }
+        }
+
+        // Allow pressing "Enter" key to add task
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        }
+
+        // Initialize Timer
+        updateTimerDisplay();
+
+    </script>
+</body>
+</html>
